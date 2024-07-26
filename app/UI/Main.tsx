@@ -3,14 +3,16 @@ import * as React from 'react';
 import Login from './login'; // Ensure this is the correct path
 import SignupForm from './signup'; // Ensure this is the correct path
 import Writepost from './writePost'; // Ensure this is the correct path
-
-const Navbar: React.FC = () => {
+import BlogArticle from './BlogArticle'
+const Main: React.FC = () => {
   const [menuOpen, setMenuOpen] = React.useState(false);
   const [dropdownOpen, setDropdownOpen] = React.useState(false);
   const [authDropdownOpen, setAuthDropdownOpen] = React.useState(false);
   const [signin, setsignin] = React.useState(false);
   const [signup, setSignup] = React.useState(false);
   const [postView, setpostView] = React.useState(false);
+  const [mainArticleView, setmainArticleView] = React.useState(true);
+
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
@@ -27,6 +29,7 @@ const Navbar: React.FC = () => {
   const show_Login = () => {
     setsignin(true);
     setSignup(false);
+    setmainArticleView(false)
   };
   const onShowSignup = () => {
     setsignin(false);
@@ -34,22 +37,31 @@ const Navbar: React.FC = () => {
   };
   const hide_Login = () => {
     setsignin(false);
+    setmainArticleView(true);
+
   };
 
   const show_Signup = () => {
     setSignup(true);
     setsignin(false);
+    setmainArticleView(false);
   };
 
   const hide_Signup = () => {
     setSignup(false);
+    setmainArticleView(true);
+
   };
 
   const ShowPostView = () => {
     setpostView(true);
+    setmainArticleView(false);
+
   };
   const hide_post = () => {
     setpostView(false);
+    setmainArticleView(true);
+
   };
 
   return (
@@ -120,8 +132,9 @@ const Navbar: React.FC = () => {
           </div>
         </nav>
       )}
+     {mainArticleView ?<BlogArticle />:"" } 
     </>
   );
 };
 
-export default Navbar;
+export default Main;
