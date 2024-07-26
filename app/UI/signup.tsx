@@ -1,21 +1,16 @@
 import * as React from 'react';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
-import Link from 'next/link';
-import { useNavigate } from 'react-router-dom';
+
 
 const SignupForm = () => {
-    const navigate=useNavigate();
-
-    const Show_Home = () => {
-        navigate("/");
-      };
+   
   return (
     <div>
       <div>
         <button className="hover:bg-blue-700 hover:text-white font-bold py-2 px-2 ml-3 rounded">
-          <Link href={""} onClick={Show_Home}>
+        
             <CloseRoundedIcon />Cancel
-          </Link>
+     
         </button>
       </div>
 
@@ -59,9 +54,9 @@ const SignupForm = () => {
               <div className="text-center mt-4">
                 <span>
                   Already have an account?{' '}
-                  <Link href="/signin" className="text-blue-500">
+                  <a href="" className="text-blue-500">
                     Sign In
-                  </Link>
+                  </a>
                 </span>
               </div>
             </form>
