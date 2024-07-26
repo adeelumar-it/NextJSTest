@@ -1,12 +1,14 @@
 "use client";
 import * as React from 'react';
 import Login from './login'; // Ensure this is the correct path
+import SignupForm from './signup'; // Ensure this is the correct path
 
 const Navbar: React.FC = () => {
   const [menuOpen, setMenuOpen] = React.useState(false);
   const [dropdownOpen, setDropdownOpen] = React.useState(false);
   const [authDropdownOpen, setAuthDropdownOpen] = React.useState(false);
   const [signin, setsignin] = React.useState(false);
+  const [signup, setSignup] = React.useState(false);
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
@@ -28,10 +30,20 @@ const Navbar: React.FC = () => {
     setsignin(false);
   };
 
+  const show_Signup = () => {
+    setSignup(true);
+  };
+
+  const hide_Signup = () => {
+    setSignup(false);
+  };
+
   return (
     <>
       {signin ? (
         <Login onCancel={hide_Login} />
+      ) : signup ? (
+        <SignupForm onCancel={hide_Signup} />
       ) : (
         <nav className="bg-white border-gray-200 dark:bg-gray-900 dark:border-gray-700">
           <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
@@ -76,9 +88,7 @@ const Navbar: React.FC = () => {
                         <a onClick={show_Login} className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Sign In</a>
                       </li>
                       <li>
-                        
-                          <a className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Sign Up</a>
-                        
+                        <a onClick={show_Signup} className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Sign Up</a>
                       </li>
                     </ul>
                   </div>

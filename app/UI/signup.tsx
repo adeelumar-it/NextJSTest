@@ -1,16 +1,19 @@
 import * as React from 'react';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 
+interface SignupFormProps {
+  onCancel: () => void;
+}
 
-const SignupForm = () => {
-   
+const SignupForm: React.FC<SignupFormProps> = ({ onCancel }) => {
   return (
     <div>
       <div>
-        <button className="hover:bg-blue-700 hover:text-white font-bold py-2 px-2 ml-3 rounded">
-        
-            <CloseRoundedIcon />Cancel
-     
+        <button
+          className="hover:bg-blue-700 hover:text-white font-bold py-2 px-2 ml-3 rounded"
+          onClick={onCancel}
+        >
+          <CloseRoundedIcon /> Cancel
         </button>
       </div>
 
@@ -54,7 +57,7 @@ const SignupForm = () => {
               <div className="text-center mt-4">
                 <span>
                   Already have an account?{' '}
-                  <a href="" className="text-blue-500">
+                  <a href="#" className="text-blue-500">
                     Sign In
                   </a>
                 </span>
