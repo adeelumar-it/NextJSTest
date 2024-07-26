@@ -57,7 +57,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ onCancel }) => {
               <div className="text-center mt-4">
                 <span>
                   Already have an account?{' '}
-                  <a href="#" className="text-blue-500">
+                  <a href="" onClick={onCancel} className="text-blue-500">
                     Sign In
                   </a>
                 </span>

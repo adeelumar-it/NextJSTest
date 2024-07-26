@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import React from 'react';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 
@@ -46,7 +45,7 @@ function LoginPage({ onCancel }: LoginPageProps) {
               <div className="text-center">
                 <span>
                   Don&apos;t have an account?
-                  <Link href="/signup" className="w-full py-2 px-4 rounded-md text-blue-500 mt-2">Sign Up</Link>
+                  <a href="" onClick={onCancel} className="w-full py-2 px-4 rounded-md text-blue-500 mt-2">Sign Up</a>
                 </span>
               </div>
             </form>
