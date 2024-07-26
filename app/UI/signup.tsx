@@ -3,9 +3,15 @@ import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 
 interface SignupFormProps {
   onCancel: () => void;
+  onShowSignin: () => void;
 }
 
-const SignupForm: React.FC<SignupFormProps> = ({ onCancel }) => {
+const SignupForm: React.FC<SignupFormProps> = ({ onCancel, onShowSignin }) => {
+  const handleSigninClick = (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    event.preventDefault();
+    onShowSignin();
+  };
+
   return (
     <div>
       <div>
@@ -17,7 +23,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ onCancel }) => {
         </button>
       </div>
 
-      <div className="min-h-screen flex items-center justify-center" style={{ background: "#f6f1f1" }}>
+      <div className="min-h-screen flex items-center justify-center" >
         <div className="w-96" style={{ border: "solid gainsboro", borderRadius: "11px" }}>
           <div className="p-4 bg-white shadow-md rounded-lg">
             <h2 className="text-2xl text-center font-semibold mb-4">Sign Up</h2>
@@ -57,7 +63,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ onCancel }) => {
               <div className="text-center mt-4">
                 <span>
                   Already have an account?{' '}
-                  <a href="" onClick={onCancel} className="text-blue-500">
+                  <a href="#" onClick={handleSigninClick} className="text-blue-500">
                     Sign In
                   </a>
                 </span>

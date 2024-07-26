@@ -3,9 +3,15 @@ import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 
 interface LoginPageProps {
   onCancel: () => void;
+  onShowSignup: () => void;
 }
 
-function LoginPage({ onCancel }: LoginPageProps) {
+function LoginPage({ onCancel, onShowSignup }: LoginPageProps) {
+  const handleSignupClick = (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    event.preventDefault();
+    onShowSignup();
+  };
+
   return (
     <div>
       <div>
@@ -45,7 +51,7 @@ function LoginPage({ onCancel }: LoginPageProps) {
               <div className="text-center">
                 <span>
                   Don&apos;t have an account?
-                  <a href="" onClick={onCancel} className="w-full py-2 px-4 rounded-md text-blue-500 mt-2">Sign Up</a>
+                  <a href="#" onClick={handleSignupClick} className="w-full py-2 px-4 rounded-md text-blue-500 mt-2">Sign Up</a>
                 </span>
               </div>
             </form>

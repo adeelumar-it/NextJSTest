@@ -26,14 +26,19 @@ const Navbar: React.FC = () => {
 
   const show_Login = () => {
     setsignin(true);
+    setSignup(false);
   };
-
+  const onShowSignup = () => {
+    setsignin(false);
+    setSignup(true);
+  };
   const hide_Login = () => {
     setsignin(false);
   };
 
   const show_Signup = () => {
     setSignup(true);
+    setsignin(false);
   };
 
   const hide_Signup = () => {
@@ -46,14 +51,13 @@ const Navbar: React.FC = () => {
   const hide_post = () => {
     setpostView(false);
   };
-  
 
   return (
     <>
       {signin ? (
-        <Login onCancel={hide_Login} />
+        <Login onCancel={hide_Login} onShowSignup={show_Signup} />
       ) : signup ? (
-        <SignupForm onCancel={hide_Signup} />
+        <SignupForm onCancel={hide_Signup} onShowSignin={show_Login} />
       ) : postView ? (
         <Writepost onCancel={hide_post} />
       ) : (
