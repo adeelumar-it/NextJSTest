@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-
+import getAllPost from '../services/GetAllBlogs'
 function BlogArticle() {
     // Placeholder data
     const placeholderData = [
@@ -19,6 +19,20 @@ function BlogArticle() {
         },
         // Add more placeholder posts as needed
     ];
+
+    
+    getAllPost(email,password, (error, response) => {
+        setLoading(false);
+        if (response) {
+          console.log(response.user)
+         
+         
+        } else {
+          setError(error);
+          console.log(error);
+        }
+      });
+    
 
     const [allPosts] = useState(placeholderData);
 

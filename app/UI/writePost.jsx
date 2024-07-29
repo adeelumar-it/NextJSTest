@@ -20,34 +20,58 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import SendIcon from '@mui/icons-material/Send';
 import DraftsOutlinedIcon from '@mui/icons-material/DraftsOutlined';
+import { createPost } from '../services/addBlogPost';
 
 
 
-export default function Writepost({onCancel}) {
+export default function Writepost({ onCancel }) {
 
 
-  const [base64Image, setBase64Image] = React.useState('');
+  const [loading, setLoading] = React.useState(false);
+  const [error, setError] = React.useState('');
+  const [success, setSuccess] = React.useState('');
+
+
+  
+
+  const [blogtitle, setblogtitle] = React.useState('');
+  const [cateGory, setcateGory] = React.useState('');
+  const [blogdescription, setblogdescription] = React.useState('');
+  const [publishdate, setpublishdate] = React.useState('');
+
+
+  const [blgIMG_64, setblgIMG_64] = React.useState('');
+
   const [content, setContent] = React.useState('');
-  const [blogtitle, setBlogTitle] = React.useState('');
-  const [description, setDescription] = React.useState('');
   const [alignment, setAlignment] = React.useState('left');
   const [open, setOpen] = React.useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    if (name === 'blogtitle') setBlogTitle(value);
+    if (name === 'blogtitle') setblogtitle(value);
   };
 
   const handleContentChange = (event) => {
-    setDescription(event.target.innerHTML);
+    setblogdescription(event.target.innerHTML);
   };
 
+  const handlecategoryChange = (event) => {
+    setcateGory(event.target.value);
+  };
+
+
+  
+
+  
   const handleImageInsertion = (event) => {
     const file = event.target.files[0];
     const reader = new FileReader();
 
     reader.onload = function (e) {
-      setBase64Image(e.target.result);
+      let base64=e.target.result;
+      base64=base64.split(',')[1]
+      setblgIMG_64(base64);
+
       setContent((prevContent) => prevContent + `<img src="${e.target.result}" alt="Selected Image" style="max-width: 100%; display: block;" />`);
     };
 
@@ -75,106 +99,141 @@ export default function Writepost({onCancel}) {
     return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}.${milliseconds}`;
   }
 
+  const postNewData=()=>{
+
+    let userInfo=window.localStorage.getItem("userinfo");
+    userInfo=JSON.parse(userInfo)
+    let userid=userInfo._id
+    //console.log(userInfo._id)
+    const currentDate = new Date();
+    const formattedDateTime = formatDateTime(currentDate);
+    console.log({ blgIMG_64, blogtitle, blogdescription,userid,cateGory,formattedDateTime })
+    createPost(userid,blogtitle,blogdescription,blgIMG_64,cateGory,formattedDateTime, (error, response) => {
+    //  setLoading(false);
+      if (response) {
+        //setSuccess('User created successfully');
+        // setTimeout(() => {
+        //   onShowSignin();
+        // }, 2000);
+        console.log(response);
+      } else {
+        setError(error);
+        console.log(error);
+      }
+    });
+  }
   return (
 
     <>
-    
-    <Box sx={{ flexGrow: 1 }} className='ml-3 mt-3 '>
-      <Grid container spacing={2}>
-        <Grid item xs={12} md={8}>
-          <Card sx={{ maxWidth: '100%' }}>
-            <CardContent>
-              <div className='dark:text-white'>
-                <button className="hover:bg-blue-700 hover:text-white font-bold py-2 px-2 mb-2 rounded">
-                  <a href=''>
-                    <CloseRoundedIcon />Cancel
-                  </a>
-                </button>
-                <div className='display:flex items:center'>
-                  <Box sx={{ width: 500, maxWidth: '100%' }}>
-                    <TextField
-                      fullWidth
-                      label="Title"
-                      id="fullWidth"
-                      name="blogtitle"
-                      onChange={handleChange}
-                    />
-                    <input
-                      type="file"
-                      id="imageInput"
-                      style={{ display: "none" }}
-                      onChange={handleImageInsertion}
-                    />
-                    <button
-                      className="mt-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-                      onClick={() => document.getElementById('imageInput').click()}
+
+      <Box sx={{ flexGrow: 1 }} className='ml-3 mt-3 '>
+        <Grid container spacing={2}>
+          <Grid item xs={12} md={8}>
+            <Card sx={{ maxWidth: '100%' }}>
+              <CardContent>
+                <div className='dark:text-white'>
+                  <button className="hover:bg-blue-700 hover:text-white font-bold py-2 px-2 mb-2 rounded">
+                    <a href=''>
+                      <CloseRoundedIcon />Cancel
+                    </a>
+                  </button>
+                  <div className='display:flex items:center'>
+                    <Box sx={{ width: 500, maxWidth: '100%' }}>
+                      <TextField
+                        fullWidth
+                        label="Title"
+                        id="fullWidth"
+                        name="blogtitle"
+                        onChange={handleChange}
+                      />
+                      <input
+                        type="file"
+                        id="imageInput"
+                        style={{ display: "none" }}
+                        onChange={handleImageInsertion}
+                      />
+                      <div className='mt-2'>
+                        <label for="countries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select Category</label>
+                        <select onChange={handlecategoryChange} id="countries" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                          <option selected>Choose a country</option>
+                          <option value="Tech">Tech</option>
+                          <option value="Fashion">Fashion</option>
+                          <option value="News">News</option>
+                          <option value="gaming">gaming</option>
+
+                        </select>
+                      </div>
+
+                      <button
+                        className="mt-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                        onClick={() => document.getElementById('imageInput').click()}
+                      >
+                        Select Image
+                      </button>
+                      <div
+                        className="border border-gray-300 rounded-lg p-4 mt-5 focus-within:border-blue-300"
+                        style={{ maxWidth: "60%", minWidth: "85%", minHeight: "36vh" }}
+                        dangerouslySetInnerHTML={{ __html: content }}
+                      />
+                    </Box>
+                  </div>
+                  <div className='mt-3 -mx-3 pl-4'>
+                    <ToggleButtonGroup
+                      value={alignment}
+                      exclusive
+                      onChange={handleAlignment}
+                      aria-label="text alignment"
                     >
-                      Select Image
-                    </button>
+                      <ToggleButton value="left" aria-label="left aligned">
+                        <FormatAlignLeftIcon />
+                      </ToggleButton>
+                      <ToggleButton value="center" aria-label="centered">
+                        <FormatAlignCenterIcon />
+                      </ToggleButton>
+                      <ToggleButton value="right" aria-label="right aligned">
+                        <FormatAlignRightIcon />
+                      </ToggleButton>
+                      <ToggleButton value="bold" aria-label="bold">
+                        <FormatBoldIcon />
+                      </ToggleButton>
+                      <ToggleButton value="italic" aria-label="italic">
+                        <FormatItalicIcon />
+                      </ToggleButton>
+                      <ToggleButton value="underlined" aria-label="underlined">
+                        <FormatUnderlinedIcon />
+                      </ToggleButton>
+                      <ToggleButton value="color" aria-label="color" disabled>
+                        <FormatColorFillIcon />
+                      </ToggleButton>
+                    </ToggleButtonGroup>
+                  </div>
+                  <div style={{ marginTop: "-20px" }}>
                     <div
                       className="border border-gray-300 rounded-lg p-4 mt-5 focus-within:border-blue-300"
-                      style={{ maxWidth: "60%", minWidth: "85%", minHeight: "36vh" }}
-                      dangerouslySetInnerHTML={{ __html: content }}
+                      contentEditable="true"
+                      style={{ maxWidth: "60%", minWidth: " 85%", minHeight: "36vh" }}
+                      onInput={handleContentChange}
+                      placeholder="Enter your text here..."
                     />
-                  </Box>
+                  </div>
                 </div>
-                <div className='mt-3 -mx-3 pl-4'>
-                  <ToggleButtonGroup
-                    value={alignment}
-                    exclusive
-                    onChange={handleAlignment}
-                    aria-label="text alignment"
-                  >
-                    <ToggleButton value="left" aria-label="left aligned">
-                      <FormatAlignLeftIcon />
-                    </ToggleButton>
-                    <ToggleButton value="center" aria-label="centered">
-                      <FormatAlignCenterIcon />
-                    </ToggleButton>
-                    <ToggleButton value="right" aria-label="right aligned">
-                      <FormatAlignRightIcon />
-                    </ToggleButton>
-                    <ToggleButton value="bold" aria-label="bold">
-                      <FormatBoldIcon />
-                    </ToggleButton>
-                    <ToggleButton value="italic" aria-label="italic">
-                      <FormatItalicIcon />
-                    </ToggleButton>
-                    <ToggleButton value="underlined" aria-label="underlined">
-                      <FormatUnderlinedIcon />
-                    </ToggleButton>
-                    <ToggleButton value="color" aria-label="color" disabled>
-                      <FormatColorFillIcon />
-                    </ToggleButton>
-                  </ToggleButtonGroup>
-                </div>
-                <div style={{ marginTop: "-20px" }}>
-                  <div
-                    className="border border-gray-300 rounded-lg p-4 mt-5 focus-within:border-blue-300"
-                    contentEditable="true"
-                    style={{ maxWidth: "60%", minWidth: " 85%", minHeight: "36vh" }}
-                    onInput={handleContentChange}
-                    placeholder="Enter your text here..."
-                  />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <Card>
+              <CardContent>
+                <button onClick={() => postNewData()} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                  <SendIcon /> Publish
+                </button>
+                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 ml-3 rounded">
+                  <DraftsOutlinedIcon /> Draft
+                </button>
+              </CardContent>
+            </Card>
+          </Grid>
         </Grid>
-        <Grid item xs={12} md={4}>
-          <Card>
-            <CardContent>
-              <button onClick={() => console.log({ base64Image, content, blogtitle, description })} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                <SendIcon /> Publish
-              </button>
-              <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 ml-3 rounded">
-                <DraftsOutlinedIcon /> Draft
-              </button>
-            </CardContent>
-          </Card>
-        </Grid>
-      </Grid>
-    </Box>
+      </Box>
     </>
   );
 }
