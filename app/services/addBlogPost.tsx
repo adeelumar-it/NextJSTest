@@ -1,9 +1,9 @@
 import axios from 'axios';
 
 export const createPost = (userid:string,blogtitle:string,blogdescription:string,blgIMG_64:string,cateGory:string,formattedDateTime:string, callback: (error: any, response: any) => void) => {
-    const baseUrl = process.env.API_Base_URL || 'http://localhost:4000';
+    const baseUrl = process.env.API_Base_URL || 'https://nodenewapi.vercel.app/';
 
-    axios.post(`${baseUrl}/api/blogpost`, {
+    axios.post(`${baseUrl}api/blogpost`, {
         userid: userid,
         blogtitle: blogtitle,
         blogdescription:blogdescription,

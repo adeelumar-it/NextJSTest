@@ -1,9 +1,9 @@
 import axios from 'axios';
 
 export const CreateUser = (name: string, email: string , password: string, callback: (error: any, response: any) => void) => {
-    const baseUrl = process.env.API_Base_URL || 'http://localhost:4000';
+    const baseUrl = process.env.API_Base_URL || 'https://nodenewapi.vercel.app/';
 
-    axios.post(`${baseUrl}/api/signup`, {
+    axios.post(`${baseUrl}api/signup`, {
         name: name,
         email: email,
         password
