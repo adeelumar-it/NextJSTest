@@ -4,6 +4,7 @@ import Login from './login'; // Ensure this is the correct path
 import SignupForm from './signup'; // Ensure this is the correct path
 import Writepost from './writePost'; // Ensure this is the correct path
 import BlogArticle from './BlogArticle'
+import Footer from './Footer';
 const Main: React.FC = () => {
   const [menuOpen, setMenuOpen] = React.useState(false);
   const [dropdownOpen, setDropdownOpen] = React.useState(false);
@@ -134,6 +135,7 @@ const Main: React.FC = () => {
         </nav>
       )}
      {mainArticleView ?<BlogArticle />:"" } 
+     <Footer/>
     </>
   );
 };
